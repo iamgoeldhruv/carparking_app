@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "525735182843",
+    "project_id": "dash-insta",
+    "storage_bucket": "dash-insta.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:525735182843:android:eade0ba97e1ffcd7df0b5e",
+        "android_client_info": {
+          "package_name": "com.example.dash_insta"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "525735182843-p4upk4j6ujtotmlb2ls1lmv4j6hl3ait.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCegSYLUYFJh3YgQuCCQ-R7ehgqm0FDYGM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "525735182843-p4upk4j6ujtotmlb2ls1lmv4j6hl3ait.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
