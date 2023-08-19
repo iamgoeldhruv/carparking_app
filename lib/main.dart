@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:dash_insta/UI/login-screen.dart';
+
 
 void main() async  {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,16 +19,17 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         
-        scaffoldBackgroundColor:Colors.yellow,
+        scaffoldBackgroundColor:Color.fromARGB(255, 184, 193, 244)
       ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('DASHCHATT APP'),
-        ),
-        body: Center(
-          child: Text('HELLO WORLD'),
-        ),
-      ),
+      // home: Scaffold(
+      //   appBar: AppBar(
+      //     title: Text('LETS PARK'),
+      //   ),
+      //   body: Center(
+      //     child: Text('HELLO DHRUV'),
+      //   ),
+      // ),
+      home:LoginScreen(),
     );
   }
 }
