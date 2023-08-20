@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:dash_insta/widgets/text-field-input.dart';
 import 'package:dash_insta/UI/login-screen.dart';
 import 'package:dash_insta/UI/register-screen.dart';
+import 'package:dash_insta/database/userauth.dart';
+import 'package:dash_insta/utils/utils.dart';
+
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -16,9 +19,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
    final TextEditingController _confirmpasswordController = TextEditingController();
+  bool _isLoading=false;
 
 
-  bool _isLoading = false;
+ 
 
   @override
   void dispose() {
@@ -28,6 +32,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _emailController.dispose();
     _passwordController.dispose();
      _confirmpasswordController.dispose();
+  }
+  void registerUser() async{
+        setState(() {
+      _isLoading = true;
+        });
+        UserAuth userAuth = UserAuth(); // Create an instance of UserAuth
+        String res = await userAuth.registerUser(
+          firstName: _fnameController.text,
+          lastName: _lnameController.text,
+          email: _emailController.text,
+          password: _passwordController.text,
+          confirmPassword: _confirmpasswordController.text,
+          );
+          setState(() {
+      _isLoading = true;
+        });
+          if(res!='success'){
+            showSnackBar(res,context);
+          }
+          
   }
 
   @override
@@ -88,26 +112,29 @@ class _RegisterScreenState extends State<RegisterScreen> {
             height: 24,
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25.0),
-            child: InkWell(
-              onTap: () {
-                // Add your login logic here
-              },
-              child: Container(
-                child: const Text(
-                  'Register',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-                width: double.infinity,
-                alignment: Alignment.center,
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4),
-                  color: const Color.fromARGB(255, 26, 81, 126),
-                ),
-              ),
+  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+  child: InkWell(
+    onTap: registerUser,
+    child: Container(
+      width: double.infinity,
+      alignment: Alignment.center,
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(4),
+        color: const Color.fromARGB(255, 26, 81, 126),
+      ),
+      child: !_isLoading
+          ? const Text(
+              'Register',
+              style: TextStyle(fontSize: 18, color: Colors.white),
+            )
+          : const CircularProgressIndicator(
+              color: Colors.white,
             ),
-          ),
+    ),
+  ),
+),
+
           const SizedBox(height: 156),
           Padding(
             padding: const EdgeInsets.only(right: 25.0),
