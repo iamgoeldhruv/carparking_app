@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:dash_insta/UI/login-screen.dart';
+import 'package:dash_insta/UI/register-screen.dart';
 
 
 void main() async  {

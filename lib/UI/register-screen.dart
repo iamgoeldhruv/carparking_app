@@ -3,26 +3,31 @@ import 'package:dash_insta/widgets/text-field-input.dart';
 import 'package:dash_insta/UI/login-screen.dart';
 import 'package:dash_insta/UI/register-screen.dart';
 
-
-
-
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({Key? key}) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
+  final TextEditingController _fnameController = TextEditingController();
+  final TextEditingController _lnameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+   final TextEditingController _confirmpasswordController = TextEditingController();
+
+
   bool _isLoading = false;
 
   @override
   void dispose() {
     super.dispose();
+    _fnameController.dispose();
+    _lnameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+     _confirmpasswordController.dispose();
   }
 
   @override
@@ -30,13 +35,24 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: ListView(
         children: <Widget>[
-          Container(
-            height: 300,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/images/loginuilogo.avif'),
-                fit: BoxFit.cover,
-              ),
+          
+          const SizedBox(height: 80),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            child: TextFieldInput(
+              hintText: 'Enter first name',
+              textInputType: TextInputType.text,
+              textEditingController: _fnameController,
+            ),
+          ),
+          const SizedBox(height: 40),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            child: TextFieldInput(
+              hintText: 'Enter last name',
+              textInputType: TextInputType.text,
+              textEditingController: _lnameController,
+              isPass: true,
             ),
           ),
           const SizedBox(height: 40),
@@ -48,13 +64,23 @@ class _LoginScreenState extends State<LoginScreen> {
               textEditingController: _emailController,
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 40),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: TextFieldInput(
               hintText: 'Enter your password',
               textInputType: TextInputType.text,
               textEditingController: _passwordController,
+              isPass: true,
+            ),
+          ),
+          const SizedBox(height: 40),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            child: TextFieldInput(
+              hintText: 'Confirm password',
+              textInputType: TextInputType.text,
+              textEditingController: _confirmpasswordController,
               isPass: true,
             ),
           ),
@@ -69,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
               },
               child: Container(
                 child: const Text(
-                  'Log in',
+                  'Register',
                   style: TextStyle(fontSize: 18, color: Colors.white),
                 ),
                 width: double.infinity,
@@ -89,24 +115,23 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 const Text(
-                  "Don't have an account?",
+                  "Already Registered?",
                   style: TextStyle(fontSize: 18),
                 ),
                 const SizedBox(width: 8),
                 ElevatedButton(
                   onPressed: () {
-                     Navigator.push(
+                    Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => RegisterScreen()),
+                    MaterialPageRoute(builder: (context) => LoginScreen()),
     );
-                    
                   },
                   style: ElevatedButton.styleFrom(
                     textStyle: const TextStyle(fontSize: 14),
                     primary: Colors.blue,
                     elevation: 0,
                   ),
-                  child: const Text('Register'),
+                  child: const Text('LOG IN'),
                 ),
               ],
             ),
