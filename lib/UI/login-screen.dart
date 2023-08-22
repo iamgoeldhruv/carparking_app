@@ -2,6 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:dash_insta/widgets/text-field-input.dart';
 import 'package:dash_insta/UI/login-screen.dart';
 import 'package:dash_insta/UI/register-screen.dart';
+import 'package:flutter/material.dart';
+import 'package:dash_insta/widgets/text-field-input.dart';
+import 'package:dash_insta/UI/login-screen.dart';
+import 'package:dash_insta/UI/register-screen.dart';
+import 'package:dash_insta/database/userauth.dart';
+import 'package:dash_insta/utils/utils.dart';
+import 'package:dash_insta/UI/dashboard.dart';
+
 
 
 
@@ -23,6 +31,30 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+  }
+  void loginUser() async{
+        setState(() {
+      _isLoading = true;
+        });
+        UserAuth userAuth = UserAuth(); // Create an instance of UserAuth
+        String res = await userAuth.loginUser(
+         
+          email: _emailController.text,
+          password: _passwordController.text,
+          
+          );
+          if(res=='success'){
+             Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => DashboardPage())
+             );
+
+          }
+        
+          else if(res!='success'){
+            showSnackBar(res,context);
+          }
+          
   }
 
   @override
@@ -64,9 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25.0),
             child: InkWell(
-              onTap: () {
-                // Add your login logic here
-              },
+              onTap:loginUser,
               child: Container(
                 child: const Text(
                   'Log in',

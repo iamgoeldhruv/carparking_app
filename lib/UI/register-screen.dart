@@ -46,7 +46,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           confirmPassword: _confirmpasswordController.text,
           );
           setState(() {
-      _isLoading = true;
+      _isLoading = false;
         });
           if(res!='success'){
             showSnackBar(res,context);

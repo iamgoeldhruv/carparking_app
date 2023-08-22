@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:dash_insta/UI/login-screen.dart';
 import 'package:dash_insta/UI/register-screen.dart';
+import 'package:dash_insta/UI/dashboard.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 
 void main() async  {
@@ -30,7 +33,23 @@ class MyApp extends StatelessWidget {
       //     child: Text('HELLO DHRUV'),
       //   ),
       // ),
-      home:LoginScreen(),
+     home: StreamBuilder(
+  stream: FirebaseAuth.instance.authStateChanges(),
+  builder: (context, snapshot) {
+    if (snapshot.connectionState == ConnectionState.active) {
+      if (snapshot.hasData) {
+        return  DashboardPage(); 
+      } else if (snapshot.hasError) {
+        return Center(
+          child: Text('${snapshot.error}'),
+        );
+      }
+    }
+    return const LoginScreen(); 
+  },
+)
+      // home:LoginScreen(),
+
     );
   }
 }
