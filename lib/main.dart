@@ -33,22 +33,22 @@ class MyApp extends StatelessWidget {
       //     child: Text('HELLO DHRUV'),
       //   ),
       // ),
-     home: StreamBuilder(
-  stream: FirebaseAuth.instance.authStateChanges(),
-  builder: (context, snapshot) {
-    if (snapshot.connectionState == ConnectionState.active) {
-      if (snapshot.hasData) {
-        return  DashboardPage(); 
-      } else if (snapshot.hasError) {
-        return Center(
-          child: Text('${snapshot.error}'),
-        );
-      }
-    }
-    return const LoginScreen(); 
-  },
-)
-      // home:LoginScreen(),
+//      home: StreamBuilder(
+//   stream: FirebaseAuth.instance.authStateChanges(),
+//   builder: (context, snapshot) {
+//     if (snapshot.connectionState == ConnectionState.active) {
+//       if (snapshot.hasData) {
+//         return  DashboardPage(); 
+//       } else if (snapshot.hasError) {
+//         return Center(
+//           child: Text('${snapshot.error}'),
+//         );
+//       }
+//     }
+//     return const LoginScreen(); 
+//   },
+// )
+      home:LoginScreen(),
 
     );
   }
