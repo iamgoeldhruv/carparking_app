@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DashboardPage extends StatefulWidget {
   @override
@@ -8,13 +10,22 @@ class DashboardPage extends StatefulWidget {
 
 class _DashboardPageState extends State<DashboardPage> {
   String greeting = '';
+  String Name='';
 
   @override
   void initState() {
     super.initState();
     fetchGreeting();
-  }
+    getName();
+  } 
+  Future<void> getName() async{
+    DocumentSnapshot snap=await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).get();
+    setState((){
+      Name=(snap.data() as Map<String,dynamic>)['firstName'];
+      print(Name);
+    });
 
+  }
   Future<void> fetchGreeting() async {
     var dt = DateTime.now();
     var hour = dt.hour;
@@ -92,7 +103,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 ListTile(
                   contentPadding: const EdgeInsets.symmetric(horizontal: 30),
                   title: Text(
-                    'Welcome Proff Pratham!',
+                    'Welcome Proff'+ " "+Name+'!',
                     style: Theme.of(context).textTheme.headline3?.copyWith(
                         color: const Color.fromARGB(255, 240, 236, 236),
                         fontWeight: FontWeight.normal),
