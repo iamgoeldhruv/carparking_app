@@ -18,10 +18,10 @@ class _DashboardPageState extends State<DashboardPage> {
     fetchGreeting();
     getName();
   } 
-  Future<void> getName() async{
-    DocumentSnapshot snap=await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).get();
+  Future<void> getName() async {
+    DocumentSnapshot snap= await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).get();
     setState((){
-      Name=(snap.data() as Map<String,dynamic>)['firstName'];
+      Name=((snap.data() as Map<String,dynamic>)['firstName']).toUpperCase();
       print(Name);
     });
 

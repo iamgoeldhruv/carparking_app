@@ -4,6 +4,7 @@ import 'package:dash_insta/UI/login-screen.dart';
 import 'package:dash_insta/UI/register-screen.dart';
 import 'package:dash_insta/UI/dashboard.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:dash_insta/UI/map-screen.dart';
 
 
 
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
       //   body: Center(
       //     child: Text('HELLO DHRUV'),
       //   ),
-      // ),
+//       // ),
 //      home: StreamBuilder(
 //   stream: FirebaseAuth.instance.authStateChanges(),
 //   builder: (context, snapshot) {
@@ -48,7 +49,7 @@ class MyApp extends StatelessWidget {
 //     return const LoginScreen(); 
 //   },
 // )
-      home:LoginScreen(),
+      home:MapScreen(),
 
     );
   }
