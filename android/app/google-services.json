@@ -29,6 +29,13 @@
             {
               "client_id": "525735182843-p4upk4j6ujtotmlb2ls1lmv4j6hl3ait.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "525735182843-h3c5rq29bn9vktg1q29903aupk742cso.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.dashInsta.RunnerTests"
+              }
             }
           ]
         }
