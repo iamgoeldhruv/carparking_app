@@ -76,7 +76,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
               hintText: 'Enter last name',
               textInputType: TextInputType.text,
               textEditingController: _lnameController,
-              isPass: true,
             ),
           ),
           const SizedBox(height: 40),

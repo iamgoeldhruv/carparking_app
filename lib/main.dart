@@ -5,12 +5,14 @@ import 'package:dash_insta/UI/register-screen.dart';
 import 'package:dash_insta/UI/dashboard.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dash_insta/UI/map-screen.dart';
-
+import 'firebase_options.dart';
 
 
 void main() async  {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+     options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -33,24 +35,25 @@ class MyApp extends StatelessWidget {
       //   body: Center(
       //     child: Text('HELLO DHRUV'),
       //   ),
-//       // ),
-//      home: StreamBuilder(
-//   stream: FirebaseAuth.instance.authStateChanges(),
-//   builder: (context, snapshot) {
-//     if (snapshot.connectionState == ConnectionState.active) {
-//       if (snapshot.hasData) {
-//         return  DashboardPage(); 
-//       } else if (snapshot.hasError) {
-//         return Center(
-//           child: Text('${snapshot.error}'),
-//         );
-//       }
-//     }
-//     return const LoginScreen(); 
-//   },
-// )
-      home:MapScreen(),
+      // ),
+     home: StreamBuilder(
+  stream: FirebaseAuth.instance.authStateChanges(),
+  builder: (context, snapshot) {
+    if (snapshot.connectionState == ConnectionState.active) {
+      if (snapshot.hasData) {
+        return  DashboardPage(); 
+      } else if (snapshot.hasError) {
+        return Center(
+          child: Text('${snapshot.error}'),
+        );
+      }
+    }
+    return const LoginScreen(); 
+  },
+)
+
 
     );
   }
 }
+   
