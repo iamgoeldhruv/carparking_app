@@ -38,7 +38,9 @@ dependencies:
   geolocator: ^10.0.0
   google_maps_flutter: ^2.4.0
   latlng: ^1.0.0
+  location: ^5.0.3
   shared_preferences: ^2.2.0
+  background_location: ^0.11.8
 
 dev_dependencies:
   flutter_lints: ^2.0.0

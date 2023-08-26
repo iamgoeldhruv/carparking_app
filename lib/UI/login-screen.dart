@@ -31,8 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
-  Position? pos;
- 
+  
   
 
 
@@ -41,13 +40,6 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
-  }
-  Future<void> fetchPosition() async {
-    Position position = await getpos();
-    setState(() {
-      pos = position; // Update the state with the fetched position
-      print(pos);
-    });
   }
   void loginUser() async{
         setState(() {

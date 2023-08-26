@@ -7,8 +7,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dash_insta/UI/map-screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:latlng/latlng.dart';
-
-
+import 'package:location/location.dart';
+import 'location.dart';
 void main() async  {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -22,11 +22,33 @@ void main() async  {
   
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
-  
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+Future <dynamic> getPos() async {
+  await getpos();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState()  {
+    // TODO: implement initState
+     getPos().then((value) {
+      try {
+        print(value);
+      } catch (e) {
+        print("error occoured");
+      }
+     },);
+    print("Init called");
+    super.initState();
+  }
+  @override
+
   
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -36,30 +58,23 @@ class MyApp extends StatelessWidget {
         
         scaffoldBackgroundColor:Color.fromARGB(255, 184, 193, 244)
       ),
-      // home: Scaffold(
-      //   appBar: AppBar(
-      //     title: Text('LETS PARK'),
-      //   ),
-      //   body: Center(
-      //     child: Text('HELLO DHRUV'),
-      //   ),
-//       // ),
-//      home: StreamBuilder(
-//   stream: FirebaseAuth.instance.authStateChanges(),
-//   builder: (context, snapshot) {
-//     if (snapshot.connectionState == ConnectionState.active) {
-//       if (snapshot.hasData) {
-//         return  DashboardPage(); 
-//       } else if (snapshot.hasError) {
-//         return Center(
-//           child: Text('${snapshot.error}'),
-//         );
-//       }
-//     }
-//     return const LoginScreen(); 
-//   },
-// )
-      home:LoginScreen(),
+      // ),
+     home: StreamBuilder(
+  stream: FirebaseAuth.instance.authStateChanges(),
+  builder: (context, snapshot) {
+    if (snapshot.connectionState == ConnectionState.active) {
+      if (snapshot.hasData) {
+        return  DashboardPage(); 
+      } else if (snapshot.hasError) {
+        return Center(
+          child: Text('${snapshot.error}'),
+        );
+      }
+    }
+    return const LoginScreen(); 
+  },
+)
+  
 
     );
   }

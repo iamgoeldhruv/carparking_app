@@ -4,8 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dash_insta/UI/map-screen.dart';
 import 'package:dash_insta/location.dart';
-import 'package:geolocator/geolocator.dart';
 
+import 'parking-screen.dart';
 
 
 class DashboardPage extends StatefulWidget {
@@ -16,23 +16,13 @@ class DashboardPage extends StatefulWidget {
 class _DashboardPageState extends State<DashboardPage> {
   String greeting = '';
   String Name='';
-  Position? pos;
-  
   @override
   void initState() {
     super.initState();
     fetchGreeting();
     getName();
-    fetchPosition();
   } 
 
-  Future<void> fetchPosition() async {
-    Position position = await getpos();
-    setState(() {
-      pos = position; // Update the state with the fetched position
-      print(pos);
-    });
-  }
   Future<void> getName() async {
     DocumentSnapshot snap= await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).get();
     setState((){
@@ -152,6 +142,10 @@ class _DashboardPageState extends State<DashboardPage> {
                   ElevatedButton(
                     onPressed: () {
                       // Add your action here when the button is pressed
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => parkingScreen()));
                     },
                     style: ElevatedButton.styleFrom(
                       primary: Colors.blue,
