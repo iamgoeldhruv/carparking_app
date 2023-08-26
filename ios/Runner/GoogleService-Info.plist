@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>525735182843-tsngpsvuolv418ghi03jpt91k3o7lj52.apps.googleusercontent.com</string>
+	<string>525735182843-5vi7u1h7vgje5i15i2g6q8mmlqivltfu.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.525735182843-tsngpsvuolv418ghi03jpt91k3o7lj52</string>
+	<string>com.googleusercontent.apps.525735182843-5vi7u1h7vgje5i15i2g6q8mmlqivltfu</string>
 	<key>API_KEY</key>
 	<string>AIzaSyAu369sm3kjhYslLE1pKRLihjvQjrgAnEg</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.carParking</string>
+	<string>com.example.carparkingApp</string>
 	<key>PROJECT_ID</key>
 	<string>dash-insta</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:525735182843:ios:bea92f68e311ff07df0b5e</string>
+	<string>1:525735182843:ios:e08aa7c4e14f20eedf0b5e</string>
 </dict>
 </plist>
