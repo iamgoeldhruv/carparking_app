@@ -28,7 +28,7 @@ class _MapScreen extends State<MapScreen> {
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Maps Sample App'),
+          title: const Text('WAY TO PARKING'),
           elevation: 2,
         ),
         body: GoogleMap(

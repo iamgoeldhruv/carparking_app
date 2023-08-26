@@ -35,12 +35,16 @@ dependencies:
   firebase_storage: ^11.2.6
   flutter:
     sdk: flutter
+  geolocator: ^10.0.0
   google_maps_flutter: ^2.4.0
+  latlng: ^1.0.0
+  shared_preferences: ^2.2.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
+   
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -53,7 +57,7 @@ flutter:
   uses-material-design: true
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/loginuilogo.avif
+    - assets/images/loginuilogo.jpg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
   # For details regarding adding assets from package dependencies, see

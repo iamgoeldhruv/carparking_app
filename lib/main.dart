@@ -5,19 +5,29 @@ import 'package:dash_insta/UI/register-screen.dart';
 import 'package:dash_insta/UI/dashboard.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dash_insta/UI/map-screen.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:latlng/latlng.dart';
 
 
 void main() async  {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  // Get the shared preferences instance.
+
+
+  
+  
   runApp(const MyApp());
+  
+  
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+  
 
   @override
+  
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'DASHCHATT APP',
@@ -49,7 +59,7 @@ class MyApp extends StatelessWidget {
 //     return const LoginScreen(); 
 //   },
 // )
-      home:MapScreen(),
+      home:LoginScreen(),
 
     );
   }

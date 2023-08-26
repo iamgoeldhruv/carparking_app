@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dash_insta/UI/map-screen.dart';
+import 'package:dash_insta/location.dart';
+import 'package:geolocator/geolocator.dart';
+
+
 
 class DashboardPage extends StatefulWidget {
   @override
@@ -11,13 +16,23 @@ class DashboardPage extends StatefulWidget {
 class _DashboardPageState extends State<DashboardPage> {
   String greeting = '';
   String Name='';
-
+  Position? pos;
+  
   @override
   void initState() {
     super.initState();
     fetchGreeting();
     getName();
+    fetchPosition();
   } 
+
+  Future<void> fetchPosition() async {
+    Position position = await getpos();
+    setState(() {
+      pos = position; // Update the state with the fetched position
+      print(pos);
+    });
+  }
   Future<void> getName() async {
     DocumentSnapshot snap= await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).get();
     setState((){
@@ -182,7 +197,19 @@ class _DashboardPageState extends State<DashboardPage> {
                   itemDashboard(' Profile', CupertinoIcons.profile_circled, Colors.deepOrange),
                   itemDashboard('Settings', CupertinoIcons.settings, Colors.green),
                   itemDashboard('Park Details', CupertinoIcons.car, Colors.purple),
-                  itemDashboard('Comments', CupertinoIcons.chat_bubble_2, Colors.brown),
+                  GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MapScreen()),
+                );
+              },
+              child: itemDashboard(
+                'Directions',
+                CupertinoIcons.arrow_2_circlepath,
+                Colors.brown,
+              ),
+            ),
                   
                   // itemDashboard('Upload', CupertinoIcons.add_circled, Colors.teal),
                   itemDashboard('About', CupertinoIcons.question_circle, Colors.blue),

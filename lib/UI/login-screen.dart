@@ -9,6 +9,12 @@ import 'package:dash_insta/UI/register-screen.dart';
 import 'package:dash_insta/database/userauth.dart';
 import 'package:dash_insta/utils/utils.dart';
 import 'package:dash_insta/UI/dashboard.dart';
+import 'package:dash_insta/location.dart';
+import 'package:geolocator/geolocator.dart';
+
+
+
+
 
 
 
@@ -25,12 +31,23 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
+  Position? pos;
+ 
+  
+
 
   @override
   void dispose() {
     super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+  }
+  Future<void> fetchPosition() async {
+    Position position = await getpos();
+    setState(() {
+      pos = position; // Update the state with the fetched position
+      print(pos);
+    });
   }
   void loginUser() async{
         setState(() {
@@ -66,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
             height: 300,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/images/loginuilogo.avif'),
+                image: AssetImage('assets/images/loginuilogo.jpg'),
                 fit: BoxFit.cover,
               ),
             ),
