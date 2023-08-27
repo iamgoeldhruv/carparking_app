@@ -216,7 +216,18 @@ class LinePainter extends CustomPainter {
           canvas.drawLine(startPoint, endPoint, paint); // Draw the line
         }
       });
+      
+    
     }
+    final TextPainter texttPainter = TextPainter(
+        text: TextSpan(
+            text: "Your Parking Is Here",
+            style: TextStyle(color: Colors.black, fontSize: 16)),
+        textAlign: TextAlign.justify,
+        textDirection: TextDirection.ltr)
+      ..layout(maxWidth: size.width - 12.0 - 12.0);
+    texttPainter.paint(canvas,  Offset(x+10, y+10));
+    
     // Starting point
   }
 
@@ -239,35 +250,71 @@ class Steps extends StatelessWidget {
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
         physics: BouncingScrollPhysics(),
-        children: [
-          for (var item in directions)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                if (item.key == 'left')
-                  Icon(
-                    Icons.turn_left_rounded,
-                    color: Colors.blue,
-                    size: 50,
-                  ),
-                if (item.key == 'right')
-                  Icon(
-                    Icons.turn_right_rounded,
-                    color: Colors.blue,
-                    size: 50,
-                  ),
-                if (item.key == "straight")
-                  Icon(
-                    Icons.straight,
-                    color: Colors.blue,
-                    size: 50,
-                  ),
-                Text(
-                  item,
-                  style: TextStyle(fontSize: 20),
-                )
-              ],
-            )
-        ]);
+        // children: [
+        //   for (var item in directions)
+        //     Row(
+        //       mainAxisAlignment: MainAxisAlignment.center,
+        //       children: [
+        //         if (item.key == 'left')
+        //           Icon(
+        //             Icons.turn_left_rounded,
+        //             color: Colors.blue,
+        //             size: 50,
+        //           ),
+        //         if (item.key == 'right')
+        //           Icon(
+        //             Icons.turn_right_rounded,
+        //             color: Colors.blue,
+        //             size: 50,
+        //           ),
+        //         if (item.key == "straight")
+        //           Icon(
+        //             Icons.straight,
+        //             color: Colors.blue,
+        //             size: 50,
+        //           ),
+        //         Text(
+        //           item,
+        //           style: TextStyle(fontSize: 20),
+        //         )
+        //       ],
+        //     )
+        // ]);
+         children: [
+        for (var directionMap in directions)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (directionMap.containsKey('left'))
+                Icon(
+                  Icons.turn_left_rounded,
+                  color: Colors.blue,
+                  size: 50,
+                ),
+              if (directionMap.containsKey('right'))
+                Icon(
+                  Icons.turn_right_rounded,
+                  color: Colors.blue,
+                  size: 50,
+                ),
+              if (directionMap.containsKey('straight'))
+                Icon(
+                  Icons.arrow_upward_rounded,
+                  color: Colors.blue,
+                  size: 50,
+                ),
+              if (directionMap.containsKey('backward'))
+                Icon(
+                  Icons.arrow_downward_rounded,
+                  color: Colors.blue,
+                  size: 50,
+                ),
+              Text(
+                directionMap.values.first.toString()+"m",
+                style: TextStyle(fontSize: 20),
+              )
+            ],
+          ),
+      ]);
   }
 }
