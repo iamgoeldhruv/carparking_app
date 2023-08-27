@@ -13,10 +13,6 @@ void main() async  {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   // Get the shared preferences instance.
-
-
-  
-  
   runApp(const MyApp());
   
   
