@@ -8,6 +8,7 @@ class UserAuth {
   Future<String> registerUser({
     required String firstName,
     required String lastName,
+     required String phone,
     required String email,
     required String password,
     required String confirmPassword,
@@ -16,6 +17,7 @@ class UserAuth {
     try {
       if (firstName.isNotEmpty &&
           lastName.isNotEmpty &&
+          phone.isNotEmpty &&
           email.isNotEmpty &&
           password.isNotEmpty &&
           confirmPassword.isNotEmpty) { // Check if all fields are not empty
@@ -35,6 +37,7 @@ class UserAuth {
             .set({
               'firstName': firstName,
               'lastName': lastName,
+              'phone': phone,
               'uid': cred.user!.uid,
               'email': email,
             });

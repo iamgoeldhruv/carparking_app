@@ -16,6 +16,7 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _fnameController = TextEditingController();
   final TextEditingController _lnameController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
    final TextEditingController _confirmpasswordController = TextEditingController();
@@ -29,6 +30,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.dispose();
     _fnameController.dispose();
     _lnameController.dispose();
+    _phoneController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
      _confirmpasswordController.dispose();
@@ -41,6 +43,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         String res = await userAuth.registerUser(
           firstName: _fnameController.text,
           lastName: _lnameController.text,
+          phone: _phoneController.text,
           email: _emailController.text,
           password: _passwordController.text,
           confirmPassword: _confirmpasswordController.text,
@@ -76,7 +79,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
               hintText: 'Enter last name',
               textInputType: TextInputType.text,
               textEditingController: _lnameController,
-              isPass: true,
+              isPass:false,
+            ),
+          ),
+          const SizedBox(height: 40),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            child: TextFieldInput(
+              hintText: 'Enter Your Phone Number',
+              textInputType: TextInputType.number,
+              textEditingController: _phoneController,
+              isPass:false,
             ),
           ),
           const SizedBox(height: 40),
@@ -135,7 +148,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   ),
 ),
 
-          const SizedBox(height: 156),
+          const SizedBox(height: 136),
           Padding(
             padding: const EdgeInsets.only(right: 25.0),
             child: Row(
