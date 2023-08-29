@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:dash_insta/UI/login-screen.dart';
-import 'package:dash_insta/UI/register-screen.dart';
 import 'package:dash_insta/UI/dashboard.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:dash_insta/UI/map-screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:latlng/latlng.dart';
-import 'package:location/location.dart';
 import 'location.dart';
 void main() async  {
   WidgetsFlutterBinding.ensureInitialized();

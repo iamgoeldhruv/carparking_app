@@ -33,27 +33,35 @@ class _parkingScreenState extends State<parkingScreen> {
 
       // Call API for directions here
     });
+
+    getpos().then((value) {
+      if (value != null) {
+        setState(() {
+          loc = value;
+        });
+      }
+    });
   }
 
-//   Future<dynamic> getpos() async {
-//     BackgroundLocation.setAndroidNotification(
-//       title: "Notification title",
-//       message: "Notification message",
-//       icon: "@mipmap/ic_launcher",
-//     );
+  Future<dynamic> getpos() async {
+    BackgroundLocation.setAndroidNotification(
+      title: "Notification title",
+      message: "Notification message",
+      icon: "@mipmap/ic_launcher",
+    );
 
-//     BackgroundLocation.setAndroidConfiguration(1000);
+    BackgroundLocation.setAndroidConfiguration(1000);
 
-//     BackgroundLocation.startLocationService();
+    BackgroundLocation.startLocationService();
 
-//     BackgroundLocation.startLocationService(distanceFilter: 10);
+    BackgroundLocation.startLocationService(distanceFilter: 10);
 
-// // BackgroundLocation.startLocationService(forceAndroidLocationManager: true);
-
-//     await BackgroundLocation.getLocationUpdates((location) {
-//       return location;
-//     });
-//   }
+// BackgroundLocation.startLocationService(forceAndroidLocationManager: true);
+                                                    
+    BackgroundLocation.getLocationUpdates((location) {
+      
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +122,6 @@ class _parkingScreenState extends State<parkingScreen> {
               SizedBox(
                 height: 40,
               ),
-              
               Steps(directions: directions),
               ElevatedButton(
                   onPressed: () {
@@ -216,8 +223,6 @@ class LinePainter extends CustomPainter {
           canvas.drawLine(startPoint, endPoint, paint); // Draw the line
         }
       });
-      
-    
     }
     final TextPainter texttPainter = TextPainter(
         text: TextSpan(
@@ -226,8 +231,8 @@ class LinePainter extends CustomPainter {
         textAlign: TextAlign.justify,
         textDirection: TextDirection.ltr)
       ..layout(maxWidth: size.width - 12.0 - 12.0);
-    texttPainter.paint(canvas,  Offset(x+10, y+10));
-    
+    texttPainter.paint(canvas, Offset(x + 10, y + 10));
+
     // Starting point
   }
 
@@ -236,9 +241,6 @@ class LinePainter extends CustomPainter {
     return false;
   }
 }
-
-
-// @Dhruv Please implement this with map , it is scrollable..
 
 class Steps extends StatelessWidget {
   dynamic directions;
@@ -280,41 +282,41 @@ class Steps extends StatelessWidget {
         //       ],
         //     )
         // ]);
-         children: [
-        for (var directionMap in directions)
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              if (directionMap.containsKey('left'))
-                Icon(
-                  Icons.turn_left_rounded,
-                  color: Colors.blue,
-                  size: 50,
-                ),
-              if (directionMap.containsKey('right'))
-                Icon(
-                  Icons.turn_right_rounded,
-                  color: Colors.blue,
-                  size: 50,
-                ),
-              if (directionMap.containsKey('straight'))
-                Icon(
-                  Icons.arrow_upward_rounded,
-                  color: Colors.blue,
-                  size: 50,
-                ),
-              if (directionMap.containsKey('backward'))
-                Icon(
-                  Icons.arrow_downward_rounded,
-                  color: Colors.blue,
-                  size: 50,
-                ),
-              Text(
-                directionMap.values.first.toString()+"m",
-                style: TextStyle(fontSize: 20),
-              )
-            ],
-          ),
-      ]);
+        children: [
+          for (var directionMap in directions)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (directionMap.containsKey('left'))
+                  Icon(
+                    Icons.turn_left_rounded,
+                    color: Colors.blue,
+                    size: 50,
+                  ),
+                if (directionMap.containsKey('right'))
+                  Icon(
+                    Icons.turn_right_rounded,
+                    color: Colors.blue,
+                    size: 50,
+                  ),
+                if (directionMap.containsKey('straight'))
+                  Icon(
+                    Icons.arrow_upward_rounded,
+                    color: Colors.blue,
+                    size: 50,
+                  ),
+                if (directionMap.containsKey('backward'))
+                  Icon(
+                    Icons.arrow_downward_rounded,
+                    color: Colors.blue,
+                    size: 50,
+                  ),
+                Text(
+                  directionMap.values.first.toString() + "m",
+                  style: TextStyle(fontSize: 20),
+                )
+              ],
+            ),
+        ]);
   }
 }
