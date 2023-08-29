@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dash_insta/UI/map-screen.dart';
+import 'package:dash_insta/UI/profile-page.dart';
 import 'package:dash_insta/location.dart';
 
 import 'parking-screen.dart';
@@ -27,7 +28,7 @@ class _DashboardPageState extends State<DashboardPage> {
     DocumentSnapshot snap= await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).get();
     setState((){
       Name=((snap.data() as Map<String,dynamic>)['firstName']).toUpperCase();
-      print(Name);
+      
     });
 
   }
@@ -188,9 +189,20 @@ class _DashboardPageState extends State<DashboardPage> {
                 crossAxisSpacing: 40,
                 mainAxisSpacing: 30,
                 children: [
-                  itemDashboard(' Profile', CupertinoIcons.profile_circled, Colors.deepOrange),
+                  
+                  GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfilePage()),
+                );
+              },
+              child: itemDashboard(' Profile', CupertinoIcons.profile_circled, Colors.deepOrange),
+            ),
+                  
                   itemDashboard('Settings', CupertinoIcons.settings, Colors.green),
                   itemDashboard('Park Details', CupertinoIcons.car, Colors.purple),
+                  
                   GestureDetector(
               onTap: () {
                 Navigator.push(
