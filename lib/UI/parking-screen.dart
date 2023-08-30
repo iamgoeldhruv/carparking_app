@@ -1,10 +1,24 @@
 import 'dart:ui';
+import 'dart:math' show cos, sqrt, asin;
+import 'dart:math' show cos, sqrt, asin, pow, sin;
+
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import '../location.dart';
 import 'package:background_location/background_location.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:dash_insta/services/notificationclass.dart';
+import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+double lat=0;
+double lng=0;
+String? result;
+double parkinglat=29.86846829292649;
+double parkinglng=77.90404325479828;
+
 
 class parkingScreen extends StatefulWidget {
   const parkingScreen({super.key});
@@ -20,6 +34,7 @@ class _parkingScreenState extends State<parkingScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+     getUserLocation();
     setState(() {
       directions = [
         {"straight": 50},
@@ -42,6 +57,26 @@ class _parkingScreenState extends State<parkingScreen> {
       }
     });
   }
+  double distance(double lat1, double lon1, double lat2, double lon2) {
+  const r = 6372.8; // Earth radius in kilometers
+
+  final dLat = _toRadians(lat2 - lat1);
+  final dLon = _toRadians(lon2 - lon1);
+  final lat1Radians = _toRadians(lat1);
+  final lat2Radians = _toRadians(lat2);
+
+  final a = _haversin(dLat) + cos(lat1Radians) * cos(lat2Radians) * _haversin(dLon);
+  final c = 2 * asin(sqrt(a));
+  print(lat);
+  print(lng);
+  print(r*c);
+
+  return r * c;
+}
+
+double _toRadians(double degrees) => degrees * 3.141592653589793238 / 180;
+
+num _haversin(double radians) => pow(sin(radians / 2), 2);
 
   Future<dynamic> getpos() async {
     BackgroundLocation.setAndroidNotification(
@@ -61,6 +96,48 @@ class _parkingScreenState extends State<parkingScreen> {
     BackgroundLocation.getLocationUpdates((location) {
       
     });
+  }
+  Future<bool> checkPermission() async {
+    bool isEnable = false;
+    LocationPermission permission;
+
+    //check if location is enable
+    isEnable = await Geolocator.isLocationServiceEnabled();
+    if (!isEnable) {
+      return false;
+    }
+
+    //check if use allow location permission
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      // if permission is denied then request user to allow permission again
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        // if permission denied again
+        return false;
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return false;
+    }
+
+    return true;
+  }
+  getUserLocation() async {
+    var isEnable = await checkPermission();
+    if (isEnable) {
+      Position location = await Geolocator.getCurrentPosition();
+      setState(() {
+        result = "";
+        lat = location.latitude;
+        lng = location.longitude;
+      });
+    } else {
+      setState(() {
+        result = "Permissoin is not allow";
+      });
+    }
   }
 
   @override
@@ -125,7 +202,23 @@ class _parkingScreenState extends State<parkingScreen> {
               Steps(directions: directions),
               ElevatedButton(
                   onPressed: () {
+                   
+
+                    double r=distance(lat,lng,parkinglat,parkinglng);
+                    if(r<0.011111111){
+                      NotificationService()
+                    .showNotification(title: 'Parking Update', body: 'Your car has been successfully parked!');
                     Navigator.of(context).pop();
+
+                    }
+                    else{
+                      NotificationService()
+                    .showNotification(title: 'Parking Update', body: 'You are outside the parking!');
+                    Navigator.of(context).pop();
+                    }
+                    
+                    
+                     
                     // Save to cloud here
                   },
                   child: Text("Save parking")),
