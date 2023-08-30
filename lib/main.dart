@@ -4,8 +4,11 @@ import 'package:dash_insta/UI/login-screen.dart';
 import 'package:dash_insta/UI/dashboard.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'location.dart';
+import 'package:dash_insta/services/notificationclass.dart';
 void main() async  {
   WidgetsFlutterBinding.ensureInitialized();
+  
+  NotificationService().initNotification();
   await Firebase.initializeApp();
   // Get the shared preferences instance.
   runApp(const MyApp());
