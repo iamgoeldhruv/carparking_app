@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ui';
 import 'dart:math' show cos, sqrt, asin;
 import 'dart:math' show cos, sqrt, asin, pow, sin;
+import 'package:dash_insta/UI/dashboard.dart';
 import 'package:http/http.dart' as http;
 
 
@@ -231,13 +232,17 @@ num _haversin(double radians) => pow(sin(radians / 2), 2);
                     if(r<0.011111111){
                       NotificationService()
                     .showNotification(title: 'Parking Update', body: 'Your car has been successfully parked!');
-                    Navigator.of(context).pop();
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => DashboardPage()));
 
                     }
                     else{
                       NotificationService()
                     .showNotification(title: 'Parking Update', body: 'You are outside the parking!');
-                    Navigator.of(context).pop();
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => DashboardPage()));
                     }
                     
                     
