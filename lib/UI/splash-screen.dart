@@ -24,34 +24,35 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-
     super.initState();
-    Timer(Duration(seconds: 3),
-            ()=>Navigator.pushReplacement(context,
-            MaterialPageRoute(builder:
-                (context) =>
-                    StreamBuilder(
-  stream: FirebaseAuth.instance.authStateChanges(),
-  builder: (context, snapshot) {
-    if (snapshot.connectionState == ConnectionState.active) {
-      if (snapshot.hasData) {
-        return  parkingspacState(); 
-      } else if (snapshot.hasError) {
-        return Center(
-          child: Text('${snapshot.error}'),
-        );
-      }
-    }
-    return const LoginScreen(); 
-  },
-            )
-        )
-    ));
+    Timer(
+        Duration(seconds: 3),
+        () => Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => StreamBuilder(
+                      stream: FirebaseAuth.instance.authStateChanges(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.active) {
+                          if (snapshot.hasData) {
+                            return DashboardPage();
+                          } else if (snapshot.hasError) {
+                            return Center(
+                              child: Text('${snapshot.error}'),
+                            );
+                          }
+                        }
+                        return const LoginScreen();
+                      },
+                    ))));
   }
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Color.fromARGB(255, 13, 198, 195), // Set the background color to black
+        color: Color.fromARGB(
+            255, 13, 198, 195), // Set the background color to black
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
