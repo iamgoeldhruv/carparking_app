@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:ui';
 import 'dart:math' show cos, sqrt, asin;
 import 'dart:math' show cos, sqrt, asin, pow, sin;
+import 'package:http/http.dart' as http;
 
 
 import 'package:flutter/material.dart';
@@ -16,8 +18,8 @@ import 'package:url_launcher/url_launcher.dart';
 double lat=0;
 double lng=0;
 String? result;
-double parkinglat=29.86846829292649;
-double parkinglng=77.90404325479828;
+double parkinglat=29.8642670;
+double parkinglng=77.9011770;
 
 
 class parkingScreen extends StatefulWidget {
@@ -30,6 +32,7 @@ class parkingScreen extends StatefulWidget {
 class _parkingScreenState extends State<parkingScreen> {
   dynamic directions = [];
   dynamic loc;
+  dynamic data;
   @override
   void initState() {
     // TODO: implement initState
@@ -47,6 +50,12 @@ class _parkingScreenState extends State<parkingScreen> {
       ];
 
       // Call API for directions here
+      getData().then((dataRecieved) {
+        data = dataRecieved;
+        setState(() {
+
+        });
+      });
     });
 
     getpos().then((value) {
@@ -56,6 +65,12 @@ class _parkingScreenState extends State<parkingScreen> {
         });
       }
     });
+  }
+  Future getData() async{
+    String localhost="http://43.205.239.212:8000";
+    dynamic response=await http.get(Uri.parse(localhost));
+    final jsonData= jsonDecode(response.body);
+    return jsonData;
   }
   double distance(double lat1, double lon1, double lat2, double lon2) {
   const r = 6372.8; // Earth radius in kilometers
@@ -147,7 +162,8 @@ num _haversin(double radians) => pow(sin(radians / 2), 2);
         print(value);
       },
     );
-    return MaterialApp(
+    if(data!= null){
+       return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: SingleChildScrollView(
@@ -190,6 +206,8 @@ num _haversin(double radians) => pow(sin(radians / 2), 2);
               SizedBox(
                 height: 20,
               ),
+              Center(child: 
+              Text(data.toString()),),
               Center(
                 child: Text(
                   "Steps",
@@ -227,6 +245,10 @@ num _haversin(double radians) => pow(sin(radians / 2), 2);
         ),
       ),
     );
+    }
+   else{
+    return CircularProgressIndicator();
+   }
   }
 }
 
