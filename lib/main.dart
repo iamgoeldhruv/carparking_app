@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:dash_insta/UI/login-screen.dart';
+import 'package:dash_insta/UI/splash-screen.dart';
 import 'package:dash_insta/UI/dashboard.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'location.dart';
@@ -53,22 +54,9 @@ class _MyAppState extends State<MyApp> {
         scaffoldBackgroundColor:Color.fromARGB(255, 184, 193, 244)
       ),
       // ),
-     home: StreamBuilder(
-  stream: FirebaseAuth.instance.authStateChanges(),
-  builder: (context, snapshot) {
-    if (snapshot.connectionState == ConnectionState.active) {
-      if (snapshot.hasData) {
-        return  DashboardPage(); 
-      } else if (snapshot.hasError) {
-        return Center(
-          child: Text('${snapshot.error}'),
-        );
-      }
-    }
-    return const LoginScreen(); 
-  },
-)
-// home:LoginScreen(),
+     
+// )
+home:SplashScreen(),
   
 
     );
