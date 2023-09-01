@@ -17,13 +17,10 @@ class DashboardPage extends StatefulWidget {
 
 class _DashboardPageState extends State<DashboardPage> {
   String greeting = '';
+  String selectedValue = 'Parking';
   bool _isPressed = true;
   String Name = '';
-  var items = [
-    "Select Parking",
-    "A",
-    "B"
-  ];
+  var items = ["Select Parking", "A", "B"];
   String dropdownvalue = 'Select Parking';
   @override
   void initState() {
@@ -176,44 +173,28 @@ class _DashboardPageState extends State<DashboardPage> {
                   //     ],
                   //   ),
                   // ),
-
-                  _isPressed == true ? InfoPopupWidget(
-                    child: DropdownButton(
-                      // Initial Value
-                      value: dropdownvalue,
-
-                      // Down Arrow Icon
-                      icon: const Icon(Icons.keyboard_arrow_down),
-                      // Array list of items
-                      items: items.map((String items) {
-                         return DropdownMenuItem(
-                          value: items,
-                          child: ElevatedButton(
-                              onPressed: () {
-                                if (items != "Select Parking") {
-                                  setState(() {
-                                    _isPressed = false;
-                                  });
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) =>
-                                          parkingspacState(options: items)));
-                                      
-                                } else {
-                                 
-                                }
-                              },
-                              child: Text(items)),
-                        );
-                      }).toList(),
-                      // After selecting the desired option,it will
-                      // change button value to selected value
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          dropdownvalue = newValue!;
-                        });
-                      },
-                    ),
-                  ) : SizedBox(),
+                  DropdownButton<String>(
+                    value: selectedValue,
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        selectedValue = newValue!;
+                      });
+                    },
+                    items: <String>['A', 'B', 'Parking'].map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: ElevatedButton(
+                            onPressed: () {
+                              if (value != "Parking") {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) =>
+                                        parkingScreen(options: value)));
+                              }
+                            },
+                            child: Text(value)),
+                      );
+                    }).toList(),
+                  ),
 
                   SizedBox(height: 10), // Adjust spacing here
 

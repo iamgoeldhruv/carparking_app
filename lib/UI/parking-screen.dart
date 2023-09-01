@@ -5,7 +5,6 @@ import 'dart:math' show cos, sqrt, asin, pow, sin;
 import 'package:dash_insta/UI/dashboard.dart';
 import 'package:http/http.dart' as http;
 
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import '../location.dart';
@@ -16,17 +15,15 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-double lat=0;
-double lng=0;
+double lat = 0;
+double lng = 0;
 String? result;
-double parkinglat=29.8642670;
-double parkinglng=77.9011770;
-
+double parkinglat = 29.8642670;
+double parkinglng = 77.9011770;
 
 class parkingScreen extends StatefulWidget {
-    // String selectedOption;
-    String options;
-    parkingScreen({super.key , required this.options});
+  String options;
+  parkingScreen({super.key, required this.options});
 
   @override
   State<parkingScreen> createState() => _parkingScreenState();
@@ -34,31 +31,28 @@ class parkingScreen extends StatefulWidget {
 
 class _parkingScreenState extends State<parkingScreen> {
   dynamic directions = [];
-
   dynamic loc;
   dynamic data;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-     getUserLocation();
+    getUserLocation();
     setState(() {
       directions = [
-        {"straight": 50},
-        {"right": 100},
-        {"straight": 50},
-        {"right": 100},
-        {"backward": 100},
-        {"left": 100},
-        {"backward": 200}
+        // {"straight": 50},
+        // {"right": 100},
+        // {"straight": 50},
+        // {"right": 100},
+        // {"backward": 100},
+        // {"left": 100},
+        // {"backward": 200}
       ];
 
       // Call API for directions here
       getData().then((dataRecieved) {
         data = dataRecieved;
-        setState(() {
-
-        });
+        setState(() {});
       });
     });
 
@@ -70,32 +64,35 @@ class _parkingScreenState extends State<parkingScreen> {
       }
     });
   }
-  Future getData() async{
-    String localhost="http://43.205.239.212:8000/${widget.options}";
-    dynamic response=await http.get(Uri.parse(localhost));
-    final jsonData= jsonDecode(response.body);
+
+  Future getData() async {
+    String localhost = "http://43.205.239.212:8000/${widget.options}";
+    dynamic response = await http.get(Uri.parse(localhost));
+    final jsonData = jsonDecode(response.body);
     return jsonData;
   }
+
   double distance(double lat1, double lon1, double lat2, double lon2) {
-  const r = 6372.8; // Earth radius in kilometers
+    const r = 6372.8; // Earth radius in kilometers
 
-  final dLat = _toRadians(lat2 - lat1);
-  final dLon = _toRadians(lon2 - lon1);
-  final lat1Radians = _toRadians(lat1);
-  final lat2Radians = _toRadians(lat2);
+    final dLat = _toRadians(lat2 - lat1);
+    final dLon = _toRadians(lon2 - lon1);
+    final lat1Radians = _toRadians(lat1);
+    final lat2Radians = _toRadians(lat2);
 
-  final a = _haversin(dLat) + cos(lat1Radians) * cos(lat2Radians) * _haversin(dLon);
-  final c = 2 * asin(sqrt(a));
-  print(lat);
-  print(lng);
-  print(r*c);
+    final a =
+        _haversin(dLat) + cos(lat1Radians) * cos(lat2Radians) * _haversin(dLon);
+    final c = 2 * asin(sqrt(a));
+    print(lat);
+    print(lng);
+    print(r * c);
 
-  return r * c;
-}
+    return r * c;
+  }
 
-double _toRadians(double degrees) => degrees * 3.141592653589793238 / 180;
+  double _toRadians(double degrees) => degrees * 3.141592653589793238 / 180;
 
-num _haversin(double radians) => pow(sin(radians / 2), 2);
+  num _haversin(double radians) => pow(sin(radians / 2), 2);
 
   Future<dynamic> getpos() async {
     BackgroundLocation.setAndroidNotification(
@@ -111,11 +108,10 @@ num _haversin(double radians) => pow(sin(radians / 2), 2);
     BackgroundLocation.startLocationService(distanceFilter: 10);
 
 // BackgroundLocation.startLocationService(forceAndroidLocationManager: true);
-                                                    
-    BackgroundLocation.getLocationUpdates((location) {
-      
-    });
+
+    BackgroundLocation.getLocationUpdates((location) {});
   }
+
   Future<bool> checkPermission() async {
     bool isEnable = false;
     LocationPermission permission;
@@ -143,6 +139,7 @@ num _haversin(double radians) => pow(sin(radians / 2), 2);
 
     return true;
   }
+
   getUserLocation() async {
     var isEnable = await checkPermission();
     if (isEnable) {
@@ -161,120 +158,99 @@ num _haversin(double radians) => pow(sin(radians / 2), 2);
 
   @override
   Widget build(BuildContext context) {
-  
-
-    // widget.options;
-    getpos().then(
-      (value) {
-        print(value);
-      },
-    );
-    if(data!= null){
-      if(data["err"] == "no-error"){
-        return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          physics: BouncingScrollPhysics(),
-          child: Column(
-            children: [
-              SizedBox(
-                height: 60,
-              ),
-              Center(
+    if (data != null) {
+      List item = data["data"]["path"].split(",");
+      for (var i in item) {
+        var x = i.split(" ");
+        String distance = x[1];
+        String instruction = x[0];
+        Map entry = {};
+        entry[instruction] = distance;
+        directions.add(entry);
+      }
+      return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
+          body: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            physics: BouncingScrollPhysics(),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 60,
+                ),
+                Center(
+                    child: Text(
+                  "Parking",
+                  style: TextStyle(fontSize: 40),
+                )),
+                SizedBox(
+                  height: 20,
+                ),
+                Center(
                   child: Text(
-                "Parking",
-                style: TextStyle(fontSize: 40),
-              )),
-              SizedBox(
-                height: 20,
-              ),
-              Center(
-                child: Text(
-                  "Your parking is ${data["data"]["name"]} which is ${data["data"]["distance"]} away",
-                  style: TextStyle(fontSize: 20),
+                    "Your parking is ${data["data"]["name"]} which is ${data["data"]["distance"]}m away",
+                    style: TextStyle(fontSize: 20),
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 40,
-              ),
-              Center(
-                child: Text(
-                  "Map",
-                  style: TextStyle(fontSize: 30),
+                SizedBox(
+                  height: 40,
                 ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              PathExample(
-                directions: directions,
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Center(child: 
-              Text(data.toString()),),
-              Center(
-                child: Text(
-                  "Steps",
-                  style: TextStyle(fontSize: 30),
+                Center(
+                  child: Text(
+                    "Map",
+                    style: TextStyle(fontSize: 30),
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 40,
-              ),
-              Steps(directions: directions),
-              
-              ElevatedButton(
-                  onPressed: () {
-                   
+                SizedBox(
+                  height: 20,
+                ),
+                PathExample(
+                  directions: directions,
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Center(
+                  child: Text(data.toString()),
+                ),
+                Center(
+                  child: Text(
+                    "Steps",
+                    style: TextStyle(fontSize: 30),
+                  ),
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+                Steps(directions: directions),
+                ElevatedButton(
+                    onPressed: () {
+                      double r = distance(lat, lng, parkinglat, parkinglng);
+                      if (r < 0.011111111) {
+                        NotificationService().showNotification(
+                            title: 'Parking Update',
+                            body: 'Your car has been successfully parked!');
+                        Navigator.of(context).pop();
+                      } else {
+                        NotificationService().showNotification(
+                            title: 'Parking Update',
+                            body: 'You are outside the parking!');
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => DashboardPage()));
+                      }
 
-                    double r=distance(lat,lng,parkinglat,parkinglng);
-                    if(r<0.011111111){
-                      NotificationService()
-                    .showNotification(title: 'Parking Update', body: 'Your car has been successfully parked!');
-                    Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => DashboardPage()));
-
-                    }
-                    else{
-                      NotificationService()
-                    .showNotification(title: 'Parking Update', body: 'You are outside the parking!');
-                    Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => DashboardPage()));
-                    
-                    }
-                    
-                    
-                     
-                    // Save to cloud here
-                  },
-                  child: Text("Save parking")),
-            ],
+                      // Save to cloud here
+                    },
+                    child: Text("Save parking")),
+              ],
+            ),
           ),
         ),
-      ),
-    );
-      }
-      else if(data["err"] == "allbuffer"){
-        return Scaffold(
-          body: Text("You may get a parking in a short while"),
-        );
-      }
-      else{
-        return Scaffold(
-          body: Text("All parkings are full"),
-        );
-      }
-       
+      );
+    } else {
+      return CircularProgressIndicator();
     }
-   else{
-    return CircularProgressIndicator();
-   }
   }
 }
 
@@ -345,20 +321,20 @@ class LinePainter extends CustomPainter {
       var startPoint = Offset(x, y);
       directionMap.forEach((key, value) {
         String dir = key;
-        int val = value;
-        if (dir.toLowerCase() == 'left') {
+        int val = int.parse(value);
+        if (dir == 'LEFT') {
           x = x - val;
           var endPoint = Offset(x, y);
           canvas.drawLine(startPoint, endPoint, paint); // Draw the line
-        } else if (dir.toLowerCase() == 'right') {
+        } else if (dir == 'RIGHT') {
           x = x + val;
           var endPoint = Offset(x, y);
           canvas.drawLine(startPoint, endPoint, paint); // Draw the line
-        } else if (dir.toLowerCase() == 'straight') {
+        } else if (dir == 'STRAIGHT') {
           y = y - val;
           var endPoint = Offset(x, y);
           canvas.drawLine(startPoint, endPoint, paint); // Draw the line
-        } else if (dir.toLowerCase() == 'backward') {
+        } else if (dir == 'BACKWARD') {
           y = y + val;
           var endPoint = Offset(x, y);
           canvas.drawLine(startPoint, endPoint, paint); // Draw the line
@@ -428,25 +404,25 @@ class Steps extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                if (directionMap.containsKey('left'))
+                if (directionMap.containsKey('LEFT'))
                   Icon(
                     Icons.turn_left_rounded,
                     color: Colors.blue,
                     size: 50,
                   ),
-                if (directionMap.containsKey('right'))
+                if (directionMap.containsKey('RIGHT'))
                   Icon(
                     Icons.turn_right_rounded,
                     color: Colors.blue,
                     size: 50,
                   ),
-                if (directionMap.containsKey('straight'))
+                if (directionMap.containsKey('STRAIGHT'))
                   Icon(
                     Icons.arrow_upward_rounded,
                     color: Colors.blue,
                     size: 50,
                   ),
-                if (directionMap.containsKey('backward'))
+                if (directionMap.containsKey('BACKWARD'))
                   Icon(
                     Icons.arrow_downward_rounded,
                     color: Colors.blue,
