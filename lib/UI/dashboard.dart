@@ -3,7 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dash_insta/UI/map-screen.dart';
+import 'package:dash_insta/UI/grid-park1.dart';
 import 'package:dash_insta/UI/profile-page.dart';
+import 'package:dash_insta/location.dart';
 import 'package:dash_insta/location.dart';
 import 'package:info_popup/info_popup.dart';
 import 'parking-screen.dart';
@@ -194,7 +196,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                   });
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) =>
-                                          parkingScreen(options: items)));
+                                          parkingspacState(options: items)));
                                       
                                 } else {
                                  

@@ -161,6 +161,8 @@ num _haversin(double radians) => pow(sin(radians / 2), 2);
 
   @override
   Widget build(BuildContext context) {
+  
+
     // widget.options;
     getpos().then(
       (value) {
@@ -224,6 +226,7 @@ num _haversin(double radians) => pow(sin(radians / 2), 2);
                 height: 40,
               ),
               Steps(directions: directions),
+              
               ElevatedButton(
                   onPressed: () {
                    
@@ -243,6 +246,7 @@ num _haversin(double radians) => pow(sin(radians / 2), 2);
                     Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => DashboardPage()));
+                    
                     }
                     
                     

@@ -1,31 +1,65 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'dart:ui';
+
+
+
+
 class parkingspacState extends StatefulWidget {
-  const parkingspacState({super.key});
+  String options;
+   parkingspacState({super.key,required this.options});
 
   @override
   State<parkingspacState> createState() => _parkingspacStateState();
 }
-
+Future getData(String s) async{
+    String localhost="http://43.205.239.212:8000/${s}";
+    dynamic response=await http.get(Uri.parse(localhost));
+    final jsonData= jsonDecode(response.body);
+    return jsonData;
+  }
 class _parkingspacStateState extends State<parkingspacState> {
   @override
+  dynamic data;
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    dynamic temp = getData(widget.options).then((value) {
+      setState(() {
+        data=value;
+      });
+    },);
+  
+  }
+  
   Widget build(BuildContext context) {
-    var p = [1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0];
+    List<String>p=data['parkLst']?.split("");
+    print(p);
+    
     int currentParking = 11;
+    if(data!=null){
     return Scaffold(
-      backgroundColor: Colors.grey,
+      backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text('Parking section A'),
       ),
+     
       body: SingleChildScrollView(
+         
         child: Row(
+          
           children: [
+            SizedBox(height: 20),
             Container(
-              width: 150,
+              width: 145,
               child: GridView.count(
                 crossAxisCount: 1,
                 shrinkWrap: true,
+                
                 children: [
+                  
                   for (int i = 0; i < p.length; i++)
                     Padding(
                       padding: EdgeInsets.only(bottom: 10),
@@ -48,7 +82,7 @@ class _parkingspacStateState extends State<parkingspacState> {
                                   Icon(
                                     CupertinoIcons.car_detailed,
                                     size: 90,
-                                    color: Colors.grey,
+                                    color: Colors.black,
                                   ),
                                   Text(
                                     (i + 1).toString(),
@@ -64,7 +98,7 @@ class _parkingspacStateState extends State<parkingspacState> {
                                 children: [
                                   Container(
                                     height: 5,
-                                    color: Colors.white,
+                                    color: Colors.black,
                                   ),
                                   Icon(
                                     CupertinoIcons.car_detailed,
@@ -79,19 +113,16 @@ class _parkingspacStateState extends State<parkingspacState> {
                                     ),
                                   ),
                                 ],
+                                
                               ),
+                              
                       ),
                     ),
                 ],
               ),
             ),
             // Add your image here
-            Image.asset(
-              'assets/your_image.png', // Replace with the path to your image asset
-              width: 150, // Adjust the width as needed
-              height: double.infinity, // Match the height to the parent
-              fit: BoxFit.cover, // You can adjust the BoxFit as needed
-            ),
+            
             CustomPaint(
               size: Size(100, 100),
               painter: LinePainter(),
@@ -99,33 +130,43 @@ class _parkingspacStateState extends State<parkingspacState> {
           ],
         ),
       ),
-    );
+    );}else{
+      return CircularProgressIndicator();
+    }
   }
-}
+  }
+
 
 
 
 
 class LinePainter extends CustomPainter {
-  int parking = 10;
+  int parking =2;
 
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.blue // Set the line color
+      ..color = Colors.white // Set the line color
       ..strokeCap = StrokeCap.round // Round line caps (optional)
       ..strokeWidth = 10.0; // Set the line width
-    double x =100;
-    double y =-1060;
+    double x =140;
+    double y =-300;
     var startpoint = Offset(x, y);
     if(parking==1){
-      var endpoint = Offset(x ,y+79.94);
+      y=y+parking*(81.94);
+      var endpoint = Offset(x ,y);
     canvas.drawLine(startpoint, endpoint, paint);
+    canvas.drawLine(startpoint, endpoint, paint);
+      var endpoint1 = Offset(x-110 ,y);
 
     }
     else{
-      var endpoint = Offset(x ,y+parking*(137.578947));
+      y=y+parking*(120.578947);
+      var endpoint = Offset(x ,y);
       canvas.drawLine(startpoint, endpoint, paint);
+      var endpoint1 = Offset(x-110 ,y);
+      
+      canvas.drawLine(endpoint, endpoint1, paint);
     }
     
     
