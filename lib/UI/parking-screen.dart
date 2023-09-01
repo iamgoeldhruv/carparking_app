@@ -23,7 +23,9 @@ double parkinglng=77.9011770;
 
 
 class parkingScreen extends StatefulWidget {
-  const parkingScreen({super.key});
+    // String selectedOption;
+    String options;
+    parkingScreen({super.key , required this.options});
 
   @override
   State<parkingScreen> createState() => _parkingScreenState();
@@ -31,6 +33,7 @@ class parkingScreen extends StatefulWidget {
 
 class _parkingScreenState extends State<parkingScreen> {
   dynamic directions = [];
+
   dynamic loc;
   dynamic data;
   @override
@@ -67,7 +70,7 @@ class _parkingScreenState extends State<parkingScreen> {
     });
   }
   Future getData() async{
-    String localhost="http://43.205.239.212:8000";
+    String localhost="http://43.205.239.212:8000/${widget.options}";
     dynamic response=await http.get(Uri.parse(localhost));
     final jsonData= jsonDecode(response.body);
     return jsonData;
@@ -157,13 +160,15 @@ num _haversin(double radians) => pow(sin(radians / 2), 2);
 
   @override
   Widget build(BuildContext context) {
+    // widget.options;
     getpos().then(
       (value) {
         print(value);
       },
     );
     if(data!= null){
-       return MaterialApp(
+      if(data["err"] == "no-error"){
+        return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: SingleChildScrollView(
@@ -184,7 +189,7 @@ num _haversin(double radians) => pow(sin(radians / 2), 2);
               ),
               Center(
                 child: Text(
-                  "Your parking is B23 on the ground floor",
+                  "Your parking is ${data["data"]["name"]} which is ${data["data"]["distance"]} away",
                   style: TextStyle(fontSize: 20),
                 ),
               ),
@@ -245,6 +250,18 @@ num _haversin(double radians) => pow(sin(radians / 2), 2);
         ),
       ),
     );
+      }
+      else if(data["err"] == "allbuffer"){
+        return Scaffold(
+          body: Text("You may get a parking in a short while"),
+        );
+      }
+      else{
+        return Scaffold(
+          body: Text("All parkings are full"),
+        );
+      }
+       
     }
    else{
     return CircularProgressIndicator();
@@ -320,19 +337,19 @@ class LinePainter extends CustomPainter {
       directionMap.forEach((key, value) {
         String dir = key;
         int val = value;
-        if (dir == 'left') {
+        if (dir.toLowerCase() == 'left') {
           x = x - val;
           var endPoint = Offset(x, y);
           canvas.drawLine(startPoint, endPoint, paint); // Draw the line
-        } else if (dir == 'right') {
+        } else if (dir.toLowerCase() == 'right') {
           x = x + val;
           var endPoint = Offset(x, y);
           canvas.drawLine(startPoint, endPoint, paint); // Draw the line
-        } else if (dir == 'straight') {
+        } else if (dir.toLowerCase() == 'straight') {
           y = y - val;
           var endPoint = Offset(x, y);
           canvas.drawLine(startPoint, endPoint, paint); // Draw the line
-        } else if (dir == 'backward') {
+        } else if (dir.toLowerCase() == 'backward') {
           y = y + val;
           var endPoint = Offset(x, y);
           canvas.drawLine(startPoint, endPoint, paint); // Draw the line
