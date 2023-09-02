@@ -4,7 +4,7 @@ import 'dart:math' show cos, sqrt, asin;
 import 'dart:math' show cos, sqrt, asin, pow, sin;
 import 'package:dash_insta/UI/dashboard.dart';
 import 'package:http/http.dart' as http;
-
+import 'grid-park1.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import '../location.dart';
@@ -227,22 +227,22 @@ class _parkingScreenState extends State<parkingScreen> {
                 ElevatedButton(
                     onPressed: () {
                       double r = distance(lat, lng, parkinglat, parkinglng);
-                      if (r < 0.011111111) {
-                        NotificationService().showNotification(
-                            title: 'Parking Update',
-                            body: 'Your car has been successfully parked!');
-                        Navigator.of(context).pop();
-                      } else {
-                        NotificationService().showNotification(
-                            title: 'Parking Update',
-                            body: 'You are outside the parking!');
+                      // if (r < 0.011111111) {
+                      //   // NotificationService().showNotification(
+                      //   //     title: 'Parking Update',
+                      //   //     body: 'Your car has been successfully parked!');
+                      //   Navigator.of(context).pop();
+                      // } else {
+                        // NotificationService().showNotification(
+                        //     title: 'Parking Update',
+                        //     body: 'You are outside the parking!');
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => DashboardPage()));
-                      }
+                            builder: (context) => parkingspacState(options: widget.options,)));
+                      // }
 
                       // Save to cloud here
                     },
-                    child: Text("Save parking")),
+                    child: Text("Get Slots")),
               ],
             ),
           ),
